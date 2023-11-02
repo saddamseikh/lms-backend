@@ -5,7 +5,7 @@ mongoose.set('strictQuery', false);
 const connectionToDB = async () => {
     try {
         const { connection } = await mongoose.connect(
-            process.env.MONGO_URI || `mongodb://localhost:27017/lms`
+            process.env.MONGO_URI || 'mongodb://localhost:27017/lms'
         );
         if (connection) {
             console.log(`Connected to mongoDB:${connection.host}`)
