@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors';
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
+import userRoutes from './routes/user.routes.js'
 
 const app = express();
 
@@ -20,6 +21,8 @@ app.use('/ping',function(req, res){
 });
 app.use(morgan('dev'));
 
+//Routes modules 
+app.use('/app/v1/user/',userRoutes)
 // Default route
 app.all('*',(req, res)=>{
     res.status(404).send('OOPS!! 404 page not found');
