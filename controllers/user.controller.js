@@ -1,11 +1,10 @@
 import User from "../models/user.model.js";
 import AppError from '../utils/error.util.js';
 import bcrypt from 'bcryptjs'
-
 const cookieOptions ={
-    maxAge: 7 * 20 * 60 * 60 * 1000, //7days
+    maxAge: 7 * 24 * 60 * 60 * 1000, //7days
     httpOnly:true, 
-    // secure:true
+
 }
 
 const register = async (req, res, next)=>{
@@ -77,7 +76,7 @@ const login = async (req, res,next)=>{
         const token = await user.generateJWTTokne();
         user.password = undefined;
     
-        res.cookie('token',token,cookieOptions);
+        res.cookie("token",token,cookieOptions);
         res.status(200).json({
             success:true,
             message:'User login successfully',
@@ -106,9 +105,23 @@ catch{
     return next (new AppError(e.message,500))
 }
 };
-const getProfile = (req,res)=>{
+const getProfile = async (req, res, _next) => {
+try{
+    const user = await User.findById(req.user.id);
+  
+    res.status(200).json({
+      success: true,
+      message: 'User details',
+      user,
+    });
 
-};
+}catch(e){
+    res.status(400).json({
+        success:false,
+        message:e.message
+    })
+}
+  };
 
 export {
     register,
