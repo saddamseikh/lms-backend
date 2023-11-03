@@ -53,14 +53,15 @@ userSchema.pre('save', async function(next){
 });
 
 userSchema.methods = {
-    generateJWTTokne(){
-        return  jwt.sign({
-            id:this._id,email:this.email,subscription:this.subscription,role:this.role
+    generateJWTTokne:async function(){
+        return await jwt.sign({
+            id: this._id, email:this.email,role:this.role
         },process.env.JWT_SECRET,
         {
-            expiresIn:process.env.JWT_EXPIRY
+            expiresIn:'24h'
         })
     }
+    
 }
 const User = model('User',userSchema);
 export default User;
